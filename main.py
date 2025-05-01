@@ -28,10 +28,14 @@ class WeatherData:
         self.five_yr_min_precipitation = None
         self.five_yr_max_precipitation = None
 
-    # write a method for mean temp in Fahrenheit. Section C2
+
+
+    # method for mean temp in Fahrenheit. Section C2
     def five_year_avg_temp(self):
+        #Determine where to start count back 5 years depending on if the event is today or in the future.
         today = datetime.date.today()
         evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
         if evnt_date > today:
             years = [self.year -i for i in range(5, 0, -1)]
         else:
@@ -63,13 +67,108 @@ class WeatherData:
         for i, temp in enumerate(temperatures):
             temperatures[i] = temp * (9 / 5) + 32
 
-        return {'avg_temp': round(mean(temperatures), 2)}
+        # Assign to attribute
+        self.five_yr_avg_temp = round(mean(temperatures), 2)
+
+        return self.five_yr_avg_temp
 
 
-    # write a method for maximum wind speed in miles per hour. Section C2
-    def five_year_max_wind(self):
+
+    # method for min temp in Fahrenheit. Section C2
+    def five_year_min_temp(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
         today = datetime.date.today()
         evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        temperatures = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['temperature_2m_mean'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                temperatures.append(daily['temperature_2m_mean'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert from celsius to farenheit
+        for i, temp in enumerate(temperatures):
+            temperatures[i] = temp * (9 / 5) + 32
+
+        # Assign to attribute
+        self.five_yr_min_temp = round(min(temperatures), 2)
+
+        return self.five_yr_min_temp
+
+
+
+    # method for max temp in Fahrenheit. Section C2
+    def five_year_max_temp(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        temperatures = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['temperature_2m_mean'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                temperatures.append(daily['temperature_2m_mean'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert from celsius to farenheit
+        for i, temp in enumerate(temperatures):
+            temperatures[i] = temp * (9 / 5) + 32
+
+        # Assign to attribute
+        self.five_yr_max_temp = round(max(temperatures), 2)
+
+        return self.five_yr_max_temp
+
+
+
+
+    # method for mean wind speed in miles per hour. Section C2
+    def five_year_avg_wind(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
         if evnt_date > today:
             years = [self.year - i for i in range(5, 0, -1)]
         else:
@@ -101,13 +200,108 @@ class WeatherData:
         for i, wind in enumerate(wind_speed):
             wind_speed[i] = wind * 0.621371
 
-        return {'max_wind': round(max(wind_speed), 2)}
+        # Assign to attribute
+        self.five_yr_avg_wind_speed = round(mean(wind_speed), 2)
+
+        return self.five_yr_avg_wind_speed
 
 
-    # write a method for precipitation sum in inches. Section C2
-    def five_year_precipitation_sum(self):
+
+
+    # write a method for min wind speed in miles per hour. Section C2
+    def five_year_min_wind(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
         today = datetime.date.today()
         evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        wind_speed = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['wind_speed_10m_max'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                wind_speed.append(daily['wind_speed_10m_max'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert from km/h to mph
+        for i, wind in enumerate(wind_speed):
+            wind_speed[i] = wind * 0.621371
+
+        # Assign to attribute
+        self.five_yr_min_wind_speed = round(min(wind_speed), 2)
+
+        return self.five_yr_min_wind_speed
+
+
+
+    # write a method for maximum wind speed in miles per hour. Section C2
+    def five_year_max_wind(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        wind_speed = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['wind_speed_10m_max'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                wind_speed.append(daily['wind_speed_10m_max'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert from km/h to mph
+        for i, wind in enumerate(wind_speed):
+            wind_speed[i] = wind * 0.621371
+
+        # Assign to attribute
+        self.five_yr_max_wind_speed = round(max(wind_speed), 2)
+
+        return self.five_yr_max_wind_speed
+
+
+
+    # method for precipitation sum in inches. Section C2
+    def five_year_precipitation_sum(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
         if evnt_date > today:
             years = [self.year - i for i in range(5, 0, -1)]
         else:
@@ -139,20 +333,114 @@ class WeatherData:
         for i, p in enumerate(precipitation):
             precipitation[i] = p / 25.4
 
-        return {'sum_precip': round(sum(precipitation), 2)}
+        # Assign to attribute
+        self.five_yr_sum_precipitation = round(sum(precipitation), 2)
+
+        return self.five_yr_sum_precipitation
+
+
+
+# method for precipitation min in inches. Section C2
+    def five_year_precipitation_min(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        precipitation = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['precipitation_sum'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                precipitation.append(daily['precipitation_sum'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert form millimeters (mm) to inches
+        for i, p in enumerate(precipitation):
+            precipitation[i] = p / 25.4
+
+        # Assign to attribute
+        self.five_yr_min_precipitation = round(min(precipitation), 2)
+
+        return self.five_yr_min_precipitation
+
+
+# method for precipitation max in inches. Section C2
+    def five_year_precipitation_max(self):
+        # Determine where to start count back 5 years depending on if the event is today or in the future.
+        today = datetime.date.today()
+        evnt_date = datetime.date(self.year, self.month, self.day_of_month)
+
+        if evnt_date > today:
+            years = [self.year - i for i in range(5, 0, -1)]
+        else:
+            years = [self.year - i for i in range(4, -1, -1)]
+
+        precipitation = []
+
+        for year in years:
+            date = f'{year}-{self.month:02d}-{self.day_of_month:02d}'
+            url = 'https://archive-api.open-meteo.com/v1/archive'
+            params = {
+                'latitude': self.latitude,
+                'longitude': self.longitude,
+                'start_date': date,
+                'end_date': date,
+                'daily': ['precipitation_sum'],
+                'timezone': 'America/New_York'  # timezone for Wilmington, NC
+            }
+
+            response = requests.get(url, params=params)
+            if response.status_code == 200:
+                data = response.json()
+                daily = data['daily']
+                precipitation.append(daily['precipitation_sum'][0])
+            else:
+                print(f'Failed for {date}')
+
+        # convert form millimeters (mm) to inches
+        for i, p in enumerate(precipitation):
+            precipitation[i] = p / 25.4
+
+        # Assign to attribute
+        self.five_yr_max_precipitation = round(max(precipitation), 2)
+
+        return self.five_yr_max_precipitation
+
+
 
 
 
 
 '''Test class:'''
-wilmington = WeatherData(34.225727, -77.944710, 9, 13, 2025)
-print(wilmington.five_year_avg_temp())
-print(wilmington.five_year_max_wind())
-print(wilmington.five_year_precipitation_sum())
-
-
-
-
+# wilmington = WeatherData(34.225727, -77.944710, 9, 13, 2025)
+# print(wilmington.five_year_avg_temp())
+# print(wilmington.five_year_min_temp())
+# print(wilmington.five_year_max_temp())
+# print(wilmington.five_year_avg_wind())
+# print(wilmington.five_year_min_wind())
+# print(wilmington.five_year_max_wind())
+# print(wilmington.five_year_precipitation_sum())
+# print(wilmington.five_year_precipitation_min())
+# print(wilmington.five_year_precipitation_max())
 
 
 # Fetch data from the open meteo weather api to test if it's working properly
