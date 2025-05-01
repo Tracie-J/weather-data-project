@@ -430,18 +430,6 @@ class WeatherData:
 
 
 
-'''Test class:'''
-# wilmington = WeatherData(34.225727, -77.944710, 9, 13, 2025)
-# print(wilmington.five_year_avg_temp())
-# print(wilmington.five_year_min_temp())
-# print(wilmington.five_year_max_temp())
-# print(wilmington.five_year_avg_wind())
-# print(wilmington.five_year_min_wind())
-# print(wilmington.five_year_max_wind())
-# print(wilmington.five_year_precipitation_sum())
-# print(wilmington.five_year_precipitation_min())
-# print(wilmington.five_year_precipitation_max())
-
 
 # Fetch data from the open meteo weather api to test if it's working properly
 '''def fetch_weather_data(latitude, longitude, date):
