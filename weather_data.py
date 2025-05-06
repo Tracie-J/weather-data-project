@@ -2,6 +2,8 @@ import requests
 import json
 from statistics import mean
 import datetime
+from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy.orm import declarative_base
 
 
 class WeatherData:
@@ -100,6 +102,28 @@ class WeatherData:
                 self.five_yr_min_precipitation, self.five_yr_max_precipitation)
 
 
+
+Base = declarative_base()
+
+class WeatherTable(Base):
+    '''This class creates a table using SQLAlchemy ORM. Section C4'''
+    __tablename__ = 'weather_records'
+
+    id = Column(Integer, primary_key=True)
+    latitude = Column(Float)
+    longitude = Column(Float)
+    month = Column(Integer)
+    day_of_month = Column(Integer)
+    year = Column(Integer)
+    five_yr_average_temp = Column(Float)
+    five_yr_min_temp = Column(Float)
+    five_yr_max_temp = Column(Float)
+    five_yr_avg_wind_speed = Column(Float)
+    five_yr_min_wind_speed = Column(Float)
+    five_yr_max_wind_speed = Column(Float)
+    five_yr_sum_precipitation = Column(Float)
+    five_yr_min_precipitation = Column(Float)
+    five_yr_max_precipitation = Column(Float)
 
 
 
