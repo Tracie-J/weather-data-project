@@ -1,14 +1,12 @@
 import requests
-import json
 from statistics import mean
 import datetime
-from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy import Column, Float, Integer
 from sqlalchemy.orm import declarative_base
 
 
+# This class holds historical weather data for a Wilmington, NC on Sept 13th. Section C1
 class WeatherData:
-    '''This class holds historical weather data for a Wilmington, NC on Sept 13th. Section C1'''
-
     def __init__(self, latitude, longitude, month, day_of_month, year):
         '''
         Initialize WeatherData with the location and date information. The weather attributes will
@@ -102,7 +100,7 @@ class WeatherData:
                 self.five_yr_min_precipitation, self.five_yr_max_precipitation)
 
 
-
+# Create a class that creates a table in SQLite using SQLAlchemy ORM. Section C4
 Base = declarative_base()
 
 class WeatherTable(Base):

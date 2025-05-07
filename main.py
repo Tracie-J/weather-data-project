@@ -1,5 +1,9 @@
-from weather_data import WeatherData
+from requests import Session
+from weather_data import WeatherData, WeatherTable, Base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+# Create an instance of the class and call the methods in part C2. Section C3
 if __name__ == '__main__':
     # Create instance for Wilmington, NC event date 09/13/2025
     wilmington = WeatherData(34.225727, -77.944710, 9, 13, 2025)
@@ -8,10 +12,43 @@ if __name__ == '__main__':
     wilmington.five_year_data()
 
 
+'''Section C5.'''
+# Set up SQLite engine and session. Section C5
+engine = create_engine('sqlite:///weather.db')
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Populate WeatherTable with data from WeatherData
+record = WeatherTable(
+    latitude=wilmington.latitude,
+    longitude=wilmington.longitude,
+    month=wilmington.month,
+    day_of_month=wilmington.day_of_month,
+    year=wilmington.year,
+    five_yr_average_temp=wilmington.five_yr_avg_temp,
+    five_yr_min_temp =wilmington.five_yr_min_temp,
+    five_yr_max_temp =wilmington.five_yr_max_temp,
+    five_yr_avg_wind_speed =wilmington.five_yr_avg_wind_speed,
+    five_yr_min_wind_speed =wilmington.five_yr_min_wind_speed,
+    five_yr_max_wind_speed =wilmington.five_yr_max_wind_speed,
+    five_yr_sum_precipitation =wilmington.five_yr_sum_precipitation,
+    five_yr_min_precipitation =wilmington.five_yr_min_precipitation,
+    five_yr_max_precipitation =wilmington.five_yr_max_precipitation
+)
+
+# Add and commit to the database.
+session.add(record)
+session.commit()
+
+# Checks that everything is successful
+print('Add successfully to the database')
+
+
 
 '''Test that I can populate and print accurate data from the weather_data file'''
 # print results
-print(wilmington.five_year_data())
+# print(wilmington.five_year_data())
 
 '''test results
 Before conversions:
