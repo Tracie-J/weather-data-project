@@ -38,11 +38,17 @@ record = WeatherTable(
 )
 
 # Add and commit to the database.
-session.add(record)
-session.commit()
+if not exists:
+    session.add(record)
+    session.commit()
+    # Checks that everything is successful
+    print('Add successfully to the database')
+else:
+    print('Data already added')
 
-# Checks that everything is successful
-print('Add successfully to the database')
+# Create method that queries the data stored in the database from C5. Section C6
+for record in session.query(WeatherTable).all():
+    print(vars(record))
 
 
 
