@@ -1,6 +1,3 @@
-from os.path import exists
-
-from requests import Session
 from weather_data import WeatherData, WeatherTable, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
