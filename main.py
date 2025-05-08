@@ -1,3 +1,5 @@
+from os.path import exists
+
 from requests import Session
 from weather_data import WeatherData, WeatherTable, Base
 from sqlalchemy import create_engine
@@ -38,19 +40,48 @@ record = WeatherTable(
 )
 
 # Add and commit to the database.
-if not exists:
-    session.add(record)
-    session.commit()
-    # Checks that everything is successful
-    print('Add successfully to the database')
-else:
-    print('Data already added')
+session.add(record)
+session.commit()
+# Checks that everything is successful
+# print('Add successfully to the database')
+
 
 # Create method that queries the data stored in the database from C5. Section C6
-for record in session.query(WeatherTable).all():
-    print(vars(record))
+def display_weather_data(session, latitude, longitude, month, day, year):
+    record = session.query(WeatherTable).filter_by(
+        latitude=latitude,
+        longitude=longitude,
+        month=month,
+        day_of_month=day,
+        year=year
+    ).first()
+
+    if record:
+        print("\n--- Weather Data Record ---")
+        print(f"Location: ({record.latitude}, {record.longitude})")
+        print(f"Date: {record.month}/{record.day_of_month}/{record.year}")
+        print(f"Avg Temp (°F): {record.five_yr_average_temp}")
+        print(f"Min Temp (°F): {record.five_yr_min_temp}")
+        print(f"Max Temp (°F): {record.five_yr_max_temp}")
+        print(f"Avg Wind Speed (mph): {record.five_yr_avg_wind_speed}")
+        print(f"Min Wind Speed (mph): {record.five_yr_min_wind_speed}")
+        print(f"Max Wind Speed (mph): {record.five_yr_max_wind_speed}")
+        print(f"Total Precipitation (in): {record.five_yr_sum_precipitation}")
+        print(f"Min Precipitation (in): {record.five_yr_min_precipitation}")
+        print(f"Max Precipitation (in): {record.five_yr_max_precipitation}")
+    else:
+        print("No record found")
+
+display_weather_data(session, 34.225727, -77.944710, 9, 13, 2025)
 
 
+
+
+
+'''clear database'''
+# session.query(WeatherTable).delete()
+# session.commit()
+# print('deleted records')
 
 '''Test that I can populate and print accurate data from the weather_data file'''
 # print results
