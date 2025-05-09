@@ -126,6 +126,9 @@ class WeatherTable(Base):
 
 
 
+
+
+
 # Fetch data from the open meteo weather api to test if it's working properly
 '''def fetch_weather_data(latitude, longitude, date):
     url = 'https://archive-api.open-meteo.com/v1/archive'
