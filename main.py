@@ -5,10 +5,10 @@ from sqlalchemy.orm import sessionmaker
 # Create an instance of the class and call the methods in part C2. Section C3
 if __name__ == '__main__':
     # Create instance for Wilmington, NC event date 09/13/2025
-    wilmington = WeatherData(34.225727, -77.944710, 9, 13, 2025)
+    location = WeatherData(34.225727, -77.944710, 9, 13, 2025)
 
     # Populate temperature, wind speed, and precipitation attributes
-    wilmington.five_year_data()
+    location.five_year_data()
 
 
 '''Section C5.'''
@@ -20,20 +20,20 @@ session = Session()
 
 # Populate WeatherTable with data from WeatherData
 record = WeatherTable(
-    latitude=wilmington.latitude,
-    longitude=wilmington.longitude,
-    month=wilmington.month,
-    day_of_month=wilmington.day_of_month,
-    year=wilmington.year,
-    five_yr_average_temp=wilmington.five_yr_avg_temp,
-    five_yr_min_temp =wilmington.five_yr_min_temp,
-    five_yr_max_temp =wilmington.five_yr_max_temp,
-    five_yr_avg_wind_speed =wilmington.five_yr_avg_wind_speed,
-    five_yr_min_wind_speed =wilmington.five_yr_min_wind_speed,
-    five_yr_max_wind_speed =wilmington.five_yr_max_wind_speed,
-    five_yr_sum_precipitation =wilmington.five_yr_sum_precipitation,
-    five_yr_min_precipitation =wilmington.five_yr_min_precipitation,
-    five_yr_max_precipitation =wilmington.five_yr_max_precipitation
+    latitude=location.latitude,
+    longitude=location.longitude,
+    month=location.month,
+    day_of_month=location.day_of_month,
+    year=location.year,
+    five_yr_average_temp=location.five_yr_avg_temp,
+    five_yr_min_temp =location.five_yr_min_temp,
+    five_yr_max_temp =location.five_yr_max_temp,
+    five_yr_avg_wind_speed =location.five_yr_avg_wind_speed,
+    five_yr_min_wind_speed =location.five_yr_min_wind_speed,
+    five_yr_max_wind_speed =location.five_yr_max_wind_speed,
+    five_yr_sum_precipitation =location.five_yr_sum_precipitation,
+    five_yr_min_precipitation =location.five_yr_min_precipitation,
+    five_yr_max_precipitation =location.five_yr_max_precipitation
 )
 
 # Add and commit to the database.
@@ -82,7 +82,7 @@ display_weather_data(session, 34.225727, -77.944710, 9, 13, 2025)
 
 '''Test that I can populate and print accurate data from the weather_data file'''
 # print results
-# print(wilmington.five_year_data())
+# print(location.five_year_data())
 
 '''test results
 Before conversions:

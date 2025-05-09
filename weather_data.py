@@ -155,14 +155,3 @@ class WeatherTable(Base):
 # weather_data = fetch_weather_data(latitude, longitude, date)
 # print(weather_data)
 '''
-# test temperature method
-    # avg_temp = five_year_avg_temp(latitude, longitude, month, day)
-    # print(avg_temp)
-
-# test wind speed method
-    # max_wind_speed = five_year_max_wind(latitude, longitude, month, day)
-    # print(max_wind_speed)
-
-# test precipitation method
-    # precip_sum = five_year_precipitation_sum(latitude, longitude, month, day)
-    # print(precip_sum)
