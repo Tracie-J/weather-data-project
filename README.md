@@ -59,3 +59,8 @@ the location variable (located near the top of the file).
 3. Run the main.py file. This will use the WeatherData class to call the API and retrieve
 the information. The WeatherTable class will create a table in SQLite and the file will store
 the records in the table and query it.
+
+## Sources
+* This project uses historical weather data collected from the [Open-Meteo API](https://archive-api.open-meteo.com/v1/archive).
+This API provides access to daily weather data such as temperature, wind speed, and precipitation
+for specific coordinates and dates.
