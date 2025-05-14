@@ -11,6 +11,10 @@ Dependencies:
 * requests - retrieves weather data from the API
 * SQLAlchemy - interacts with the SQLite database
 
+Libraries:
+* statistics - allows you to use mean
+* datetime - makes working with dates easier
+
 Install Dependencies:
 Dependencies can be installed by using the Python Interpreter under Settings or pip install -r requirements.txt in the 
 terminal.
